@@ -1,11 +1,11 @@
 {
   "name": "github-redirect",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index"
+    "start": "ts-node src/index"
   },
   "keywords": [],
   "author": "LautyDev",
@@ -15,7 +15,8 @@
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
