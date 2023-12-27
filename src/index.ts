@@ -55,7 +55,7 @@ app.get("*", async (req, res) => {
         </html>`);
     }
 
-    if (error.response.status === 429) {
+    if (error.response.status === 403) {
       sendError(
         "Too Many Requests",
         "The temporary limit of allowed requests has been reached. Please wait before taking further action.",
