@@ -13,18 +13,18 @@ const server = http.createServer(app);
 app.set("port", process.env.PORT || 3002);
 app.use(cors());
 
-// Your Github profile
-const githubProfile = "https://github.com/LautyDev";
+// Your Github user
+const githubUser = "LautyDev";
 
 // Routes
 app.get("/", async (req: Request, res: Response) => {
-  res.redirect(`${githubProfile}`);
+  res.redirect(`https://github.com/${githubUser}`);
 });
 
 app.get("*", async (req: Request, res: Response) => {
   try {
     const result = await axios.get(
-      `https://api.github.com/repos/LautyDev${req.url}`
+      `https://api.github.com/repos/${githubUser}${req.url}`
     );
 
     res.redirect(result.data.html_url);
@@ -54,7 +54,7 @@ app.get("*", async (req: Request, res: Response) => {
       </head>
       <body style="background-color: black">
         <script>
-            window.location.href = '${githubProfile}';
+            window.location.href = 'https://github.com/${githubUser}';
         </script>
       </body>
       </html>`);
