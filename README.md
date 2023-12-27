@@ -10,6 +10,7 @@
 
 <p align="center">
   <a href="#dart-about">About</a> &#xa0; | &#xa0;
+  <a href="#eyes-demo">Demo</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
   <a href="https://github.com/LautyDev" target="_blank">Author</a>
@@ -20,6 +21,10 @@
 ## :dart: About
 
 This project consists of a web server that redirects requests to a GitHub profile or to specific repositories. When the path is "/", it redirects to the GitHub profile. For other paths, it attempts to access information from a repository through the GitHub API. If the repository exists, it redirects to its URL; otherwise, it displays a custom error page.
+
+## :eyes: Demo
+
+https://gh.lauty.dev/
 
 ## :white_check_mark: Requirements
 
