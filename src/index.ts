@@ -31,7 +31,7 @@ app.get("*", async (req, res) => {
       `https://api.github.com/repos/${githubUser}${req.url}`
     );
 
-    const validUrlRegex = /^https:\/\/github\.com\/\w+\/\w+$/;
+    const validUrlRegex = /^https:\/\/github\.com\/[\w-]+\/[\w-]+$/;
     const htmlUrl = result.data.html_url;
 
     if (validUrlRegex.test(htmlUrl)) res.redirect(htmlUrl);
