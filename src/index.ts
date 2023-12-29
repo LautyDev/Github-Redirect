@@ -4,6 +4,7 @@ import http from "http";
 import cors from "cors";
 import axios from "axios";
 import colors from "colors";
+import helmet from "helmet";
 
 // App
 const app = express();
@@ -12,6 +13,7 @@ const server = http.createServer(app);
 // App settings
 app.set("port", process.env.PORT || 3002);
 app.use(cors());
+app.use(helmet());
 
 // Your Github user
 const githubUser = "LautyDev";
