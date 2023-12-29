@@ -5,8 +5,6 @@ import cors from "cors";
 import axios from "axios";
 import colors from "colors";
 import helmet from "helmet";
-import cookieParser from "cookie-parser";
-import csprng from "csprng";
 
 // App
 const app = express();
@@ -18,15 +16,6 @@ app.set("port", process.env.PORT || 3002);
 // Middlewares
 app.use(cors());
 app.use(helmet());
-app.use(cookieParser());
-
-app.use((_req, res, next) => {
-  const csrfToken = csprng(128, 36);
-  res.cookie("csrfToken", csrfToken, { httpOnly: true });
-  res.locals.csrfToken = csrfToken;
-
-  next();
-});
 
 // Your Github user
 const githubUser = "LautyDev";
@@ -42,10 +31,14 @@ app.get("*", async (req, res) => {
       `https://api.github.com/repos/${githubUser}${req.url}`
     );
 
-    res.redirect(result.data.html_url);
+    const validUrlRegex = /^https:\/\/github\.com\/\w+\/\w+$/;
+    const htmlUrl = result.data.html_url;
+
+    if (validUrlRegex.test(htmlUrl)) res.redirect(htmlUrl);
+    else console.log("The fetched URL is invalid.");
   } catch (error: any) {
     function sendError(title: string, description: string, image: string) {
-      res.set("Content-Type", "text/html");
+      res.set("Content-Type", "text/html; charset=utf-8");
       res.send(`<!DOCTYPE html>
         <html lang="en">
         <head>
