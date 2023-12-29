@@ -5,6 +5,8 @@ import cors from "cors";
 import axios from "axios";
 import colors from "colors";
 import helmet from "helmet";
+import cookieParser from "cookie-parser";
+import csprng from "csprng";
 
 // App
 const app = express();
@@ -12,8 +14,19 @@ const server = http.createServer(app);
 
 // App settings
 app.set("port", process.env.PORT || 3002);
+
+// Middlewares
 app.use(cors());
 app.use(helmet());
+app.use(cookieParser());
+
+app.use((_req, res, next) => {
+  const csrfToken = csprng(128, 36);
+  res.cookie("csrfToken", csrfToken, { httpOnly: true });
+  res.locals.csrfToken = csrfToken;
+
+  next();
+});
 
 // Your Github user
 const githubUser = "LautyDev";
