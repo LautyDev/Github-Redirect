@@ -15,9 +15,6 @@ app.set("port", process.env.PORT || 3002);
 
 // Middlewares
 app.use(cors());
-app.use(helmet());
-
-// Use Helmet middleware with CSP configuration
 app.use(
   helmet({
     contentSecurityPolicy: {
