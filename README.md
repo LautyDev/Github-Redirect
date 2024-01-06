@@ -10,9 +10,9 @@
 
 <p align="center">
   <a href="#dart-about">About</a> &#xa0; | &#xa0;
-  <a href="#eyes-demo">Demo</a> &#xa0; | &#xa0;
+  <a href="#eyes-demo">Try it</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
-  <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-setup">Setting it up</a> &#xa0; | &#xa0;
   <a href="https://github.com/LautyDev" target="_blank">Author</a>
 </p>
 
@@ -32,7 +32,7 @@ https://gh.lauty.dev/
 - [Node](https://nodejs.org/en/)
 - [PNPM](https://pnpm.io/)
 
-## :checkered_flag: Starting
+## :checkered_flag: Setup
 
 ```bash
 # Clone this project
