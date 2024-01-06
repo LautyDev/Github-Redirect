@@ -75,13 +75,13 @@ app.get("*", async (req, res) => {
     if (error.response.status === 403) {
       sendError(
         "Too Many Requests",
-        "The temporary limit of allowed requests has been reached. Please wait before taking further action.",
+        "The temporary limit of allowed requests has been reached. Please wait before trying again.",
         "https://http.cat/429.jpg"
       );
     } else {
       sendError(
         "Repository not found",
-        "The requested page does not exist. The repository may have been deleted, or the URL may be incorrect. Be sure to check and try again, keeping in mind that the repository might be in private mode.",
+        "The requested repository does not exist. The repository may have been deleted, or the URL may be incorrect. Be sure to check and try again, keep in mind that the repository might be in private mode.",
         "https://www.dynamicic.com/wp-content/uploads/2012/12/404-banner.jpg"
       );
     }
