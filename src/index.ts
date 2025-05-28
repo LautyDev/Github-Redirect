@@ -1,10 +1,10 @@
 // External imports
-import express from "express";
+import express, { Response } from "express";
 import http from "http";
 import cors from "cors";
-import axios from "axios";
 import colors from "colors";
 import helmet from "helmet";
+import { cachedRepos, startTimer } from "./cache";
 
 // App
 const app = express();
@@ -27,7 +27,10 @@ app.use(
 );
 
 // Your Github user
-const githubUser = "LautyDev";
+export const githubUser = "LautyDev";
+
+// The interval in minutes to check for new repositories
+export const cacheInterval = 30;
 
 // Routes
 app.get("/", async (_req, res) => {
@@ -35,61 +38,59 @@ app.get("/", async (_req, res) => {
 });
 
 app.get("*", async (req, res) => {
-  try {
-    const result = await axios.get(
-      `https://api.github.com/repos/${githubUser}${req.url}`
+  let successful = false;
+
+  for (const repo of cachedRepos) {
+    if (req.url.slice(1).toLowerCase() === repo.toLowerCase()) {
+      successful = true;
+
+      console.log("redirecting to ", `https://github.com/${githubUser}/${repo}`)
+      res.redirect(`https://github.com/${githubUser}/${repo}`)
+    }
+  }
+
+  if (!successful) {
+    sendError(
+      res,
+      "Repository not found",
+      "The requested repository does not exist. The repository may have been deleted, or the URL may be incorrect. Be sure to check and try again, keep in mind that the repository might be in private mode.",
+      "https://www.dynamicic.com/wp-content/uploads/2012/12/404-banner.jpg"
     );
-
-    const validUrlRegex = /^https:\/\/github\.com\/[\w-]+\/[\w-]+$/;
-    const htmlUrl = result.data.html_url;
-
-    if (validUrlRegex.test(htmlUrl)) res.redirect(htmlUrl);
-    else console.log("The fetched URL is invalid.");
-  } catch (error: any) {
-    function sendError(title: string, description: string, image: string) {
-      res.set("Content-Type", "text/html; charset=utf-8");
-      res.send(`<!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <meta name="twitter:card" content="summary_large_image">
-          <meta name="twitter:title" content="${title}">
-          <meta name="twitter:description" content="${description}">
-          <meta name="twitter:image" content="${image}">
-
-          <meta property="og:title" content="${title}">
-          <meta property="og:description" content="${description}">
-          <meta property="og:image" content="${image}">
-          <meta property="theme-color" content="#dd0026">
-          <title>${title}</title>
-        </head>
-        <body style="background-color: black">
-          <script>
-              window.location.href = 'https://github.com/${githubUser}';
-          </script>
-        </body>
-        </html>`);
-    }
-
-    if (error.response.status === 403) {
-      sendError(
-        "Too Many Requests",
-        "The temporary limit of allowed requests has been reached. Please wait before trying again.",
-        "https://http.cat/429.jpg"
-      );
-    } else {
-      sendError(
-        "Repository not found",
-        "The requested repository does not exist. The repository may have been deleted, or the URL may be incorrect. Be sure to check and try again, keep in mind that the repository might be in private mode.",
-        "https://www.dynamicic.com/wp-content/uploads/2012/12/404-banner.jpg"
-      );
-    }
   }
 });
 
+function sendError(res: Response, title: string, description: string, image: string) {
+  res.set("Content-Type", "text/html; charset=utf-8");
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="twitter:card" content="summary_large_image">
+      <meta name="twitter:title" content="${title}">
+      <meta name="twitter:description" content="${description}">
+      <meta name="twitter:image" content="${image}">
+
+      <meta property="og:title" content="${title}">
+      <meta property="og:description" content="${description}">
+      <meta property="og:image" content="${image}">
+      <meta property="theme-color" content="#dd0026">
+      <title>${title}</title>
+    </head>
+    <body style="background-color: black">
+      <script>
+          window.location.href = 'https://github.com/${githubUser}';
+      </script>
+    </body>
+    </html>
+  `);
+}
+
 // Start server
-server.listen(app.get("port"), (): void => {
+server.listen(app.get("port"), async () => {
+  await startTimer();
+
   console.log(
     `${colors.blue("[SERVER]")} Server listening on port ${colors.yellow(
       app.get("port")
