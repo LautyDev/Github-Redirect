@@ -28,9 +28,8 @@ https://gh.lauty.dev/
 
 ## :white_check_mark: Requirements
 
-- [Git](https://git-scm.com)
-- [Node](https://nodejs.org/en/)
-- [PNPM](https://pnpm.io/)
+- [Node.js](https://nodejs.org/en/)
+- [Bun](https://bun.sh/)
 
 ## :checkered_flag: Starting
 
@@ -42,10 +41,10 @@ $ git clone https://github.com/LautyDev/Github-Redirect
 $ cd Github-Redirect
 
 # Install dependencies
-$ pnpm i
+$ bun i
 
 # Run the project
-$ pnpm start
+$ bun start
 
 # The server will initialize in the <http://localhost:3002>
 ```
