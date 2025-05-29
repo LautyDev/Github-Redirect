@@ -44,7 +44,6 @@ app.get("*", async (req, res) => {
     if (req.url.slice(1).toLowerCase() === repo.toLowerCase()) {
       successful = true;
 
-      console.log("redirecting to ", `https://github.com/${githubUser}/${repo}`)
       res.redirect(`https://github.com/${githubUser}/${repo}`)
     }
   }
