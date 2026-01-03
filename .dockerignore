@@ -1,4 +1,6 @@
-node_modules
-.env.example
-.env.development
-.env.production
+*
+!src/
+!bun.lock
+!bunfig.toml
+!package.json
+!tsconfig.json
