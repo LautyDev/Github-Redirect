@@ -1,14 +1,14 @@
 import { Html } from '@elysiajs/html';
+import { GITHUB_USER } from '../constants';
 
 // Typed props for the ErrorPage component
 interface ErrorPageProps {
 	title: string;
 	description: string;
 	image: string;
-	githubUser: string;
 }
 
-export function ErrorPage({ title, description, image, githubUser }: ErrorPageProps) {
+export function ErrorPage({ title, description, image }: ErrorPageProps) {
 	return (
 		<html lang='en'>
 			<head>
@@ -26,7 +26,7 @@ export function ErrorPage({ title, description, image, githubUser }: ErrorPagePr
 				<title>{title}</title>
 			</head>
 			<body style='background-color: black'>
-				<script>{`window.location.href = 'https://github.com/${githubUser}';`}</script>
+				<script>{`window.location.href = 'https://github.com/${encodeURIComponent(GITHUB_USER)}';`}</script>
 			</body>
 		</html>
 	);
