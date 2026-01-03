@@ -1,12 +1,22 @@
-FROM oven/bun:alpine
-
-WORKDIR /app
-COPY . .
+# Builder
+FROM docker.io/oven/bun:alpine AS builder
+WORKDIR /build/
 
 ENV NODE_ENV=production
+ENV PORT=5000
 
-RUN bun install
+COPY . ./
+
+RUN bun install --production --frozen-lockfile --ignore-scripts
+RUN bun run build:standalone
+
+# Runner
+FROM gcr.io/distroless/base-nossl-debian12:nonroot AS runner
+
+ENV PORT=5000
+
+COPY --from=builder /build/dist/ghrd ./
 
 EXPOSE 5000/tcp
 
-CMD ["bun", "start"]
+CMD ["./ghrd"]

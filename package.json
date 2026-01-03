@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "bun run build:bundle",
 		"build:bundle": "bun build --target bun --format esm --minify --outdir ./dist/ ./src/index.tsx",
+		"build:standalone": "bun build --compile --target bun --format esm --minify --outfile ./dist/ghrd ./src/index.tsx",
 		"start": "NODE_ENV=production bun src/index.tsx",
 		"dev": "NODE_ENV=development bun --hot src/index.tsx",
 		"production:build": "bun run build:standalone",
