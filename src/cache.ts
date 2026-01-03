@@ -1,9 +1,7 @@
-import { cacheInterval } from '.';
+import { cacheInterval, GITHUB_USER } from './constants';
 
-// The cached repositories
-export const cachedRepos: string[] = [];
+export const cachedRepos = new Map<string, string>();
 
-// The function to start the timer
 export async function startTimer() {
 	await checkRepos();
 
@@ -11,18 +9,16 @@ export async function startTimer() {
 }
 
 async function checkRepos() {
-	const url = `https://api.github.com/users/${process.env['GITHUB_USER']}/repos?per_page=100`;
+	const url = `https://api.github.com/users/${encodeURIComponent(GITHUB_USER)}/repos?per_page=100`;
 
-	// Get public repositories from the GitHub API
 	const response = await fetch(url).catch(() => null);
 
 	if (!response) return;
 
-	// Parse the response as a JSON object
 	const repositories = (await response.json()) as { name: string }[];
 
-	// Update cache with current repository names
-	const repoNames = repositories.map((repo) => repo.name);
-	cachedRepos.length = 0; // Clear current cache
-	cachedRepos.push(...repoNames); // Add new repositories
+	cachedRepos.clear();
+	repositories.forEach((repo) => {
+		cachedRepos.set(repo.name.toLowerCase(), repo.name);
+	});
 }
