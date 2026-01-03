@@ -55,7 +55,7 @@ $ bun start
 ## :whale: Docker
 
 ```bash
-$ docker run -d -p 5000:5000 -e GITHUB_USER=your_github_username ghcr.io/lautydev/github-redirect:latest
+$ docker run -p 5000:5000 -e GITHUB_USER=your_github_username ghcr.io/lautydev/github-redirect:latest
 
 # The server will initialize in the <http://localhost:5000>
 ```
