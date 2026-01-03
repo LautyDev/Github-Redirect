@@ -1,5 +1,5 @@
 # Builder
-FROM docker.io/oven/bun:alpine AS builder
+FROM docker.io/oven/bun:latest AS builder
 WORKDIR /build/
 
 ENV NODE_ENV=production
