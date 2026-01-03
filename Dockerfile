@@ -17,6 +17,6 @@ ENV PORT=5000
 
 COPY --from=builder /build/dist/ghrd ./
 
-EXPOSE 5000/tcp
+EXPOSE $PORT/tcp
 
 CMD ["./ghrd"]
