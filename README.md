@@ -46,7 +46,15 @@ $ bun i
 # Run the project
 $ bun start
 
-# The server will initialize in the <http://localhost:3002>
+# The server will initialize in the <http://localhost:5000>
+```
+
+## :whale: Docker
+
+```bash
+$ docker run -d -p 5000:5000 ghcr.io/lautydev/github-redirect:latest
+
+# The server will initialize in the <http://localhost:5000>
 ```
 
 Made with :heart: by <a href="https://github.com/LautyDev" target="_blank">LautyDev</a>

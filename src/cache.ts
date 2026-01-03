@@ -1,4 +1,4 @@
-import { cacheInterval, githubUser } from '.';
+import { cacheInterval } from '.';
 
 // The cached repositories
 export const cachedRepos: string[] = [];
@@ -11,7 +11,7 @@ export async function startTimer() {
 }
 
 async function checkRepos() {
-	const url = `https://api.github.com/users/${githubUser}/repos?per_page=100`;
+	const url = `https://api.github.com/users/${process.env['GITHUB_USER']}/repos?per_page=100`;
 
 	// Get public repositories from the GitHub API
 	const response = await fetch(url).catch(() => null);

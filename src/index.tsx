@@ -4,9 +4,6 @@ import { Elysia } from 'elysia';
 import { cachedRepos, startTimer } from './cache';
 import { ErrorPage } from './components/ErrorPage';
 
-// Your Github user
-export const githubUser = 'LautyDev';
-
 // The interval in minutes to check for new repositories
 export const cacheInterval = 30;
 
@@ -17,7 +14,7 @@ const app = new Elysia()
 		return new Response(undefined, {
 			status: 302,
 			headers: {
-				Location: `https://github.com/${githubUser}`
+				Location: `https://github.com/${process.env['GITHUB_USER']}`
 			}
 		});
 	})
@@ -32,7 +29,7 @@ const app = new Elysia()
 				return new Response(undefined, {
 					status: 302,
 					headers: {
-						Location: `https://github.com/${githubUser}/${repo}`
+						Location: `https://github.com/${process.env['GITHUB_USER']}/${repo}`
 					}
 				});
 			}
@@ -44,10 +41,17 @@ const app = new Elysia()
 				'The requested repository does not exist. The repository may have been deleted, or the URL may be incorrect. Be sure to check and try again, keep in mind that the repository might be in private mode.';
 			const image = 'https://www.dynamicic.com/wp-content/uploads/2012/12/404-banner.jpg';
 
-			return <ErrorPage title={title} description={description} image={image} githubUser={githubUser} />;
+			return (
+				<ErrorPage
+					title={title}
+					description={description}
+					image={image}
+					githubUser={process.env['GITHUB_USER']!}
+				/>
+			);
 		}
 	})
-	.listen(process.env['PORT'] || 3002);
+	.listen(process.env['PORT'] || 5000);
 
 console.log(`Server is running at ${app.server?.hostname}:${app.server?.port}`);
 
